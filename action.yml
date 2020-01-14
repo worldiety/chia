@@ -1,0 +1,9 @@
+name: 'GitHub Action for chia'
+description: 'Runs multiple checks/linting etc'
+author: 'JulianKahnert <julian.kahnert@worldiety.de>'
+runs:
+  using: 'docker'
+  image: 'docker://worldiety/chia:latest'
+branding:
+  icon: 'alert-circle'
+  color: 'green'
