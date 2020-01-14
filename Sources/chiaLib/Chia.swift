@@ -5,8 +5,6 @@
 //  Created by Julian Kahnert on 12.01.20.
 //
 
-import Foundation
-
 public struct Chia {
     public static var providers: [CheckProvider.Type] = [
         LicenseCheck.self,

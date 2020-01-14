@@ -9,8 +9,8 @@ let package = Package(
         .macOS(.v10_12),
     ],
     products: [
-        .library(name: "chia", targets: ["chia"]),
-        .executable(name: "chia-cli", targets: ["chiaCLI"])
+        .library(name: "chiaLib", targets: ["chiaLib"]),
+        .executable(name: "chia", targets: ["chia"])
     ],
     dependencies: [
         .package(url: "https://github.com/johnsundell/shellout.git", from: "2.0.0"),
@@ -18,18 +18,18 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "chia",
+            name: "chiaLib",
             dependencies: [
                 "ShellOut", "Files"
             ]
         ),
         .target(
-            name: "chiaCLI",
-            dependencies: ["chia"]
+            name: "chia",
+            dependencies: ["chiaLib"]
         ),
         .testTarget(
             name: "chiaTests",
-            dependencies: ["chia"]
+            dependencies: ["chiaLib"]
         )
     ]
 )

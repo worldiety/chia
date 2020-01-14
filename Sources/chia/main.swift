@@ -1,4 +1,4 @@
-import chia
+import chiaLib
 import Foundation
 
 do {
