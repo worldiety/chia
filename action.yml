@@ -3,7 +3,7 @@ description: 'Runs multiple checks/linting etc'
 author: 'JulianKahnert <julian.kahnert@worldiety.de>'
 runs:
   using: 'docker'
-  image: 'docker://worldiety/chia:latest'
+  image: 'Dockerfile'
 branding:
-  icon: 'alert-circle'
+  icon: 'check-circle'
   color: 'green'

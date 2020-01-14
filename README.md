@@ -14,6 +14,12 @@ docker run -it -v ${PWD}:/project worldiety/chia:latest
 
 ## Installation
 
+Using [Mint](https://github.com/yonaskolb/mint):
+```bash
+mint install worldiety/chia
+```
+
+Compiling from source:
 ```bash
 git clone https://github.com/worldiety/chia && cd chia
 swift build --configuration release
