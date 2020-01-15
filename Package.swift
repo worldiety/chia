@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "chia",
     platforms: [
-        .macOS(.v10_12),
+        .macOS(.v10_12)
     ],
     products: [
         .library(name: "chiaLib", targets: ["chiaLib"]),
@@ -14,7 +14,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/johnsundell/shellout.git", from: "2.0.0"),
-        .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0"),
+        .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0")
     ],
     targets: [
         .target(

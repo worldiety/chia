@@ -5,11 +5,11 @@
 //  Created by Julian Kahnert on 12.01.20.
 //
 
-public struct Chia {
+public enum Chia {
     public static var providers: [CheckProvider.Type] = [
         LicenseCheck.self,
         ReadmeCheck.self,
-        SwiftLintCheck.self,
+        SwiftLintCheck.self
     ]
 
     public static func runChecks() throws {
