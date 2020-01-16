@@ -10,7 +10,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension URL {
+public extension URL {
     init?(localOrRemotePath path: String) {
         if path.lowercased().starts(with: "http") {
             self.init(string: path)

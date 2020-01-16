@@ -1,5 +1,5 @@
 skippedProviders:
-     - ReadmeCheck
+     # - ReadmeCheck
      # - LicenseCheck
      # - SwiftLintCheck
 

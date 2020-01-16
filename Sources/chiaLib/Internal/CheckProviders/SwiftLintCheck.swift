@@ -15,21 +15,21 @@ import ShellOut
 struct SwiftLintCheck: CheckProvider {
     static let type: Language = .swift
 
-    private static let configPath = ".swiftlint.yml"
+    private static let configFilename = ".swiftlint.yml"
     static func run(with config: ChiaConfig, at projectRoot: Folder) throws {
+
         // validate if swiftlint exists
         try canFindDependency(binary: "swiftlint")
 
         // get config, if not already exists
         var customSwiftLintConfigUrl: URL?
-        if !projectRoot.containsFile(at: configPath) {
+        if let path = config.swiftLintConfig?.lintingRulesPath {
 
             // get local or remote config
-            guard let path = config.swiftLintConfig?.lintingRulesPath,
-                let url = URL(localOrRemotePath: path),
+            guard let url = URL(localOrRemotePath: path),
                 let data = try? Data(contentsOf: url) else { throw CheckError.configNotFound }
 
-            let swiftlintConfigUrl = projectRoot.url.appendingPathComponent(configPath)
+            let swiftlintConfigUrl = projectRoot.url.appendingPathComponent(configFilename)
             try data.write(to: swiftlintConfigUrl)
             customSwiftLintConfigUrl = swiftlintConfigUrl
         }
@@ -43,7 +43,7 @@ struct SwiftLintCheck: CheckProvider {
             }
 
             // run swiftlint
-            try shellOut(to: "swiftlint", at: projectRoot.path)
+            try shellOut(to: "swiftlint", arguments: ["lint", "--quiet", "--reporter json"], at: projectRoot.path)
         } catch {
             throw CheckError.checkFailed(.init(folder: projectRoot, error: error))
         }

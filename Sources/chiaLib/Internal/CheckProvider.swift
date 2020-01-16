@@ -10,6 +10,7 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
+import Logging
 import ShellOut
 
 protocol CheckProvider {
@@ -18,10 +19,16 @@ protocol CheckProvider {
 }
 
 extension CheckProvider {
+
+    static var logger: Logger {
+        Logger(label: "CheckProvider")
+    }
+
     static func canFindDependency(binary: String) throws {
         do {
-            try shellOut(to: "which", arguments: [binary, ">", "/dev/null"])
+            try shellOut(to: "which", arguments: [binary])
         } catch {
+            logger.error("Could not find the dependency '\(binary)'.\n\(error.localizedDescription)")
             throw CheckError.dependencyNotFound(binary)
         }
     }

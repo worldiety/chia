@@ -10,23 +10,32 @@ let package = Package(
     ],
     products: [
         .library(name: "chiaLib", targets: ["chiaLib"]),
+        .library(name: "TerminalLog", targets: ["TerminalLog"]),
         .executable(name: "chia", targets: ["chia"])
     ],
     dependencies: [
         .package(url: "https://github.com/johnsundell/shellout.git", from: "2.0.0"),
         .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0"),
-        .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0")
+        .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
+        .package(url: "https://github.com/apple/swift-tools-support-core.git", from: "0.0.1"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.0.0")
     ],
     targets: [
         .target(
             name: "chiaLib",
             dependencies: [
-                "ShellOut", "Files", "Yams"
+                "ShellOut", "Files", "Yams", "Logging"
+            ]
+        ),
+        .target(
+            name: "TerminalLog",
+            dependencies: [
+                "Logging", "SwiftToolsSupport-auto"
             ]
         ),
         .target(
             name: "chia",
-            dependencies: ["chiaLib"]
+            dependencies: ["chiaLib", "SwiftToolsSupport-auto", "TerminalLog"]
         ),
         .testTarget(
             name: "chiaTests",

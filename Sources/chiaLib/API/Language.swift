@@ -16,9 +16,7 @@ public enum Language: String, Equatable, Codable {
 //    case go
 //    case java
 
-    /// Returns a project language for a given root folder.
-    /// - Parameter projectRoot: Root folder of the project, might be folder of the `Package.swift` file or `.git` folder.
-    public static func detect(at projectRoot: Folder) -> Language? {
+    static func detect(at projectRoot: Folder) -> Language? {
         if projectRoot.containsFile(at: "Package.swift") || projectRoot.files.contains(where: { $0.name.hasSuffix("xcodeproj") || $0.name.hasSuffix("xcworkspace") }) {
             return .swift
         } else {

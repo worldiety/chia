@@ -8,7 +8,6 @@ chia
 
 # run docker container with all dependencies and mount the current folder for analysis
 docker run -it -v ${PWD}:/project worldiety/chia:latest    
-
 ```
 
 

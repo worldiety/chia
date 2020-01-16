@@ -12,4 +12,5 @@ public enum ChiaError: Error {
     case projectRootNotFound(Error)
     case yamlReadingError(Error)
     case yamlDecodingError(Error)
+    case checkFailed(Error)
 }
