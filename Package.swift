@@ -14,13 +14,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/johnsundell/shellout.git", from: "2.0.0"),
-        .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0")
+        .package(url: "https://github.com/JohnSundell/Files", from: "4.0.0"),
+        .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0")
     ],
     targets: [
         .target(
             name: "chiaLib",
             dependencies: [
-                "ShellOut", "Files"
+                "ShellOut", "Files", "Yams"
             ]
         ),
         .target(

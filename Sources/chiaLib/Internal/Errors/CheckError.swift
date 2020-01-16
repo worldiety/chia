@@ -7,13 +7,13 @@
 
 import Files
 
-public enum CheckError: Error {
+enum CheckError: Error {
     case checkFailed(Info)
     case dependencyNotFound(String)
     case configNotFound
 }
 
-public extension CheckError {
+extension CheckError {
     struct Info: CustomStringConvertible {
         let folder: Folder
         let error: Error?
