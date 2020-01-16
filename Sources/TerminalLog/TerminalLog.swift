@@ -7,7 +7,6 @@
 // Source: https://github.com/chrisaljoudi/swift-log-oslog
 
 import Logging
-import TSCBasic
 
 public struct TerminalLog: LogHandler {
 
@@ -19,12 +18,8 @@ public struct TerminalLog: LogHandler {
     public var logLevel: Logger.Level = .info
 
     private var prettyMetadata: String?
-    private let terminalController: TerminalController
 
-    public init(_: String) {
-        guard let tc = TerminalController(stream: stdoutStream) else { fatalError("Could not create an instance of TerminalController.") }
-        self.terminalController = tc
-    }
+    public init(_: String) { }
 
     public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, file: String, function: String, line: UInt) {
 
@@ -42,7 +37,7 @@ public struct TerminalLog: LogHandler {
             formedMessage += " -- " + combinedPrettyMetadata!
         }
 
-        terminalController.write(formedMessage + "\n", inColor: getColor(for: level))
+        print("\(formedMessage, color: getColor(for: level))\n")
     }
 
     /// Add, remove, or change the logging metadata.
@@ -66,8 +61,8 @@ public struct TerminalLog: LogHandler {
         }.joined(separator: " ")
     }
 
-    private func getColor(for level: Logger.Level) -> TerminalController.Color {
-        let color: TerminalController.Color
+    private func getColor(for level: Logger.Level) -> ASCIIColor {
+        let color: ASCIIColor
         switch level {
         case .critical, .error:
             color = .red
@@ -76,7 +71,7 @@ public struct TerminalLog: LogHandler {
         case .info:
             color = .green
         default:
-            color = .noColor
+            color = .default
         }
         return color
     }
