@@ -3,3 +3,5 @@
 /Packages
 /*.xcodeproj
 xcuserdata/
+.swiftlint.yml
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata

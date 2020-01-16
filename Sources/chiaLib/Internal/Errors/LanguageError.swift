@@ -5,6 +5,6 @@
 //  Created by Julian Kahnert on 12.01.20.
 //
 
-public enum LanguageError: Error {
+enum LanguageError: Error {
     case languageDetectionFailed
 }

@@ -1,9 +1,63 @@
+// swiftlint:disable line_length
+
 import chiaLib
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+import Logging
+import TerminalLog
+import TSCUtility
+import Files
+
+// bootstrap logging
+LoggingSystem.bootstrap(TerminalLog.init)
+let logger = Logger(label: "chia-cli")
+
+// parse command line argument
+let parser = ArgumentParser(commandName: "chia",
+                            usage: "[--only-language-detection]",
+                            overview: "Run several check like linting etc. in your CI process.")
+let configPath: OptionArgument<String> = parser.add(option: "--config", shortName: "-c", kind: String.self, usage: "Path to the Config file (local or remote), e.g. 'https://PATH/TO/.chia.yml'", completion: .filename)
+let onlyLanguageDetection: OptionArgument<Bool> = parser.add(option: "--only-language-detection", kind: Bool.self)
 
 do {
-    try Chia.runChecks()
+    let result = try parser.parse(Array(CommandLine.arguments.dropFirst()))
+
+    // setup chia
+    var chia = Chia(logger: logger)
+
+    // try to get a config path from the CLI - use default config otherwise
+    if let configPath = result.get(configPath) {
+
+        guard let url = URL(localOrRemotePath: configPath) else {
+                logger.error("Could not find a config at:\n\(configPath)")
+                exit(1)
+        }
+        try chia.setConfig(from: url)
+    } else {
+
+        // no url is provied - use the default one
+        try chia.setConfig(from: nil)
+    }
+
+    if result.get(onlyLanguageDetection) ?? false {
+        if let detectedLanguage = chia.detectProjectLanguage() {
+            logger.info("Language: \(detectedLanguage)")
+        } else {
+            logger.warning("No language detected.")
+        }
+    } else {
+        try chia.runChecks()
+    }
+} catch ArgumentParserError.expectedValue(let value) {
+    logger.error("Missing value for argument \(value).")
+    exit(1)
+} catch ArgumentParserError.expectedArguments(_, let stringArray) {
+    logger.error("Missing arguments: \(stringArray.joined()).")
+    exit(1)
 } catch {
-    print(error)
+    logger.error("\(error.localizedDescription)")
     exit(1)
 }
+exit(0)

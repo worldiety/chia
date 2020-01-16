@@ -1,0 +1,10 @@
+skippedProviders:
+     # - ReadmeCheck
+     # - LicenseCheck
+     # - SwiftLintCheck
+
+projectRootAppendix: Null
+
+swiftLintConfig:
+     lintingRulesPath: https://PATH/TO/CONFIG/.swiftlint.yml
+     # lintingRulesPath: /LOCAL/PATH/TO/CONFIG/.swiftlint.yml
