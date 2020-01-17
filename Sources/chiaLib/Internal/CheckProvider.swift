@@ -14,7 +14,7 @@ import Logging
 import ShellOut
 
 protocol CheckProvider {
-    static var type: Language { get }
+    static var languages: [Language] { get }
     static var dependencies: [String] { get }
     static func run(with config: ChiaConfig, at projectRoot: Folder) throws -> [CheckResult]
 }

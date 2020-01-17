@@ -112,10 +112,11 @@ public struct Chia {
             let projectRootFolder = self.projectRootFolder else { throw ChiaError.configNotFound }
 
         // get project language
-        guard let detectedLanguags = Language.detect(at: projectRootFolder) else { throw LanguageError.languageDetectionFailed }
+        guard let detectedLanguage = Language.detect(at: projectRootFolder) else { throw LanguageError.languageDetectionFailed }
+        logger?.info("Detected the language: \(detectedLanguage)")
 
         // get all check providers for the detected language or generic ones
-        let filteredProviders = Chia.providers.filter { ($0.type == detectedLanguags || $0.type == .generic) && !$0.isPart(of: config.skippedProviders ?? []) }
+        let filteredProviders = Chia.providers.filter { ($0.languages.contains(detectedLanguage) || $0.languages.contains(.generic)) && !$0.isPart(of: config.skippedProviders ?? []) }
         logger?.info("These checks will be used:\n\(filteredProviders.map { String(describing: $0) })")
 
         // run all checks

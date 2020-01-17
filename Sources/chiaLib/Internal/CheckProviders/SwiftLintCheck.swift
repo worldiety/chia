@@ -13,7 +13,7 @@ import FoundationNetworking
 import ShellOut
 
 struct SwiftLintCheck: CheckProvider {
-    static let type: Language = .swift
+    static let languages: [Language] = [.swift]
     static let dependencies: [String] = ["swiftlint"]
     private static let configFilename = ".swiftlint.yml"
 

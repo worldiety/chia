@@ -9,7 +9,7 @@ import Files
 
 struct ReadmeCheck: CheckProvider {
 
-    static let type: Language = .generic
+    static let languages: [Language] = [.generic]
     static let dependencies: [String] = []
     private static let missingFileResult = [CheckResult(severity: .error, message: "README.md file could not be found.", metadata: nil)]
 

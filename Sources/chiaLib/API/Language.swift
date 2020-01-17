@@ -13,12 +13,16 @@ import Files
 public enum Language: String, Equatable, Codable {
     case generic
     case swift
-//    case go
+    case go
 //    case java
+//    case javaSpringBoot
 
     static func detect(at projectRoot: Folder) -> Language? {
         if projectRoot.containsFile(at: "Package.swift") || projectRoot.subfolders.contains(where: { $0.name.hasSuffix("xcodeproj") || $0.name.hasSuffix("xcworkspace") }) {
             return .swift
+        } else if let mostFrequentFileExt = projectRoot.files.compactMap({ $0.extension }).getMostFrequent(),
+            mostFrequentFileExt.lowercased() == "go" {
+            return .go
         } else {
             return nil
         }
