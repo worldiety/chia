@@ -16,7 +16,7 @@ chia --config /PATH/TO/.chia.yml
 chia --config https://PATH/TO/.chia.yml
 
 # only detect and return the language of the project
-chia --only-language-detection
+chia --language-detection
 ```
 
 Instead of keeping track of your dependencies, you can use our [Docker Image](https://hub.docker.com/r/worldiety/chia).
@@ -46,6 +46,7 @@ chia:
 ```
 
 ... or use our [:octocat: Github Action](https://github.com/marketplace/actions/github-action-for-chia).
+
 
 ## ⌨️🖱Installation
 

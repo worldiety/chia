@@ -16,10 +16,10 @@ let logger = Logger(label: "chia-cli")
 
 // parse command line argument
 let parser = ArgumentParser(commandName: "chia",
-                            usage: "[--only-language-detection]",
+                            usage: "[--config path] [--language-detection]",
                             overview: "Run several check like linting etc. in your CI process.")
 let configPath: OptionArgument<String> = parser.add(option: "--config", shortName: "-c", kind: String.self, usage: "Path to the Config file (local or remote), e.g. 'https://PATH/TO/.chia.yml'", completion: .filename)
-let onlyLanguageDetection: OptionArgument<Bool> = parser.add(option: "--only-language-detection", kind: Bool.self)
+let onlyLanguageDetection: OptionArgument<Bool> = parser.add(option: "--language-detection", kind: Bool.self, usage: "Returns a project language for a given root folder. All checks will be skipped.")
 
 do {
     let result = try parser.parse(Array(CommandLine.arguments.dropFirst()))
