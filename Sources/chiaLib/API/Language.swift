@@ -17,7 +17,7 @@ public enum Language: String, Equatable, Codable {
 //    case java
 
     static func detect(at projectRoot: Folder) -> Language? {
-        if projectRoot.containsFile(at: "Package.swift") || projectRoot.files.contains(where: { $0.name.hasSuffix("xcodeproj") || $0.name.hasSuffix("xcworkspace") }) {
+        if projectRoot.containsFile(at: "Package.swift") || projectRoot.subfolders.contains(where: { $0.name.hasSuffix("xcodeproj") || $0.name.hasSuffix("xcworkspace") }) {
             return .swift
         } else {
             return nil

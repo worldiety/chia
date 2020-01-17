@@ -8,11 +8,13 @@
 import Files
 
 struct ReadmeCheck: CheckProvider {
-    static let type: Language = .generic
 
-    static func run(with config: ChiaConfig, at projectRoot: Folder) throws {
-        guard projectRoot.containsFile(at: "README.md") else {
-            throw CheckError.checkFailed(.init(folder: projectRoot, error: nil))
-        }
+    static let type: Language = .generic
+    static let dependencies: [String] = []
+    private static let missingFileResult = [CheckResult(severity: .error, message: "README.md file could not be found.", metadata: nil)]
+
+    static func run(with config: ChiaConfig, at projectRoot: Folder) throws -> [CheckResult] {
+        let fileMissing = !projectRoot.containsFile(at: "README.md")
+        return fileMissing ? missingFileResult : []
     }
 }

@@ -6,5 +6,5 @@ skippedProviders:
 projectRootAppendix: Null
 
 swiftLintConfig:
-     lintingRulesPath: https://PATH/TO/CONFIG/.swiftlint.yml
+     # lintingRulesPath: https://PATH/TO/CONFIG/.swiftlint.yml
      # lintingRulesPath: /LOCAL/PATH/TO/CONFIG/.swiftlint.yml

@@ -37,7 +37,7 @@ public struct TerminalLog: LogHandler {
             formedMessage += " -- " + combinedPrettyMetadata!
         }
 
-        print("\(formedMessage, color: getColor(for: level))\n")
+        print("\(formedMessage, color: getColor(for: level))")
     }
 
     /// Add, remove, or change the logging metadata.
@@ -68,7 +68,7 @@ public struct TerminalLog: LogHandler {
             color = .red
         case .warning:
             color = .yellow
-        case .info:
+        case .notice:
             color = .green
         default:
             color = .default
