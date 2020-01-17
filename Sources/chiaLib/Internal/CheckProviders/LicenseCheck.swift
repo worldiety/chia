@@ -8,11 +8,12 @@
 import Files
 
 struct LicenseCheck: CheckProvider {
-    static let type: Language = .generic
 
-    static func run(with config: ChiaConfig, at projectRoot: Folder) throws {
-        guard projectRoot.containsFile(at: "LICENSE") else {
-            throw CheckError.checkFailed(.init(folder: projectRoot, error: nil))
-        }
+    static let type: Language = .generic
+    private static let missingFileResult = [CheckResult(severity: .error, message: "LICENSE file could not be found.", metadata: nil)]
+
+    static func run(with config: ChiaConfig, at projectRoot: Folder) throws -> [CheckResult] {
+        let fileMissing = !projectRoot.containsFile(at: "LICENSE")
+        return fileMissing ? missingFileResult : []
     }
 }

@@ -15,7 +15,7 @@ import ShellOut
 
 protocol CheckProvider {
     static var type: Language { get }
-    static func run(with config: ChiaConfig, at projectRoot: Folder) throws
+    static func run(with config: ChiaConfig, at projectRoot: Folder) throws -> [CheckResult]
 }
 
 extension CheckProvider {
@@ -29,7 +29,7 @@ extension CheckProvider {
             try shellOut(to: "which", arguments: [binary])
         } catch {
             logger.error("Could not find the dependency '\(binary)'.\n\(error.localizedDescription)")
-            throw CheckError.dependencyNotFound(binary)
+            throw CheckError.dependencyNotFound(dependency: binary)
         }
     }
 

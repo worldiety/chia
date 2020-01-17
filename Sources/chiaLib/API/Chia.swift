@@ -96,7 +96,7 @@ public struct Chia {
     public func runChecks() throws {
 
         guard let config = self.config,
-            let projectRootFolder = self.projectRootFolder else { throw CheckError.configNotFound }
+            let projectRootFolder = self.projectRootFolder else { throw ChiaError.configNotFound }
 
         // get project language
         guard let detectedLanguags = Language.detect(at: projectRootFolder) else { throw LanguageError.languageDetectionFailed }
@@ -104,21 +104,28 @@ public struct Chia {
         // get all check providers for the detected language or generic ones
         let filteredProviders = Chia.providers.filter { ($0.type == detectedLanguags || $0.type == .generic) && !$0.isPart(of: config.skippedProviders ?? []) }
 
-        var noCheckFailed = true
+        // run all checks
+        var results = [CheckResult]()
         for provider in filteredProviders {
             do {
-                try perform(provider.run(with: config, at: projectRootFolder),
-                            msg: "Check Failed [\(provider)]",
-                    errorTransform: { .checkFailed($0) })
+
+                let checkResults = try provider.run(with: config, at: projectRootFolder)
+                results.append(contentsOf: checkResults)
+
+            } catch CheckError.checkFailed(let info) {
+                results.append(CheckResult(severity: .error, message: "CheckError: Failed with info: \(info.description)", metadata: ["checkType": .string(String(describing: provider))]))
+            } catch CheckError.dependencyNotFound(let dependency) {
+                results.append(CheckResult(severity: .error, message: "CheckError: Dependency '\(dependency)' not found.", metadata: ["checkType": .string(String(describing: provider))]))
+            } catch CheckError.configPathNotFound(let path) {
+                results.append(CheckResult(severity: .error, message: "CheckError: Config path invalid: '\(path)'", metadata: ["checkType": .string(String(describing: provider))]))
             } catch {
-                logger?.error("\(error)")
-                noCheckFailed = false
+                results.append(CheckResult(severity: .error, message: "\(error.localizedDescription)", metadata: ["checkType": .string(String(describing: provider))]))
             }
         }
 
-        if noCheckFailed {
-            logger?.info("All checks successful. We used:\n\(filteredProviders)")
-        }
+        // log the output of all checks
+        log(results)
+        logger?.info("These checks were used:\n\(filteredProviders)")
     }
 
     // MARK: - Helper Function
@@ -130,4 +137,25 @@ public struct Chia {
         }
     }
 
+    private func log(_ results: [CheckResult]) {
+
+        logger?.info("\n\nCheck Results:\n")
+        let warnings = results.filter { $0.severity == .warning }
+        for warning in warnings {
+            logger?.warning("WARNING: \(warning.message)", metadata: warning.metadata)
+        }
+
+        let errors = results.filter { $0.severity == .error }
+        for error in errors {
+            logger?.error("ERROR: \(error.message)", metadata: error.metadata)
+        }
+
+        if warnings.isEmpty && errors.isEmpty {
+            logger?.notice("\nAll checks successful.\n")
+        } else if errors.isEmpty {
+            logger?.warning("\nFound \(warnings.count) warnings.\n")
+        } else {
+            logger?.error("\nFound \(errors.count) errors and \(warnings.count) warnings.\n")
+        }
+    }
 }

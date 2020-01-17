@@ -8,9 +8,9 @@
 import Files
 
 enum CheckError: Error {
-    case checkFailed(Info)
-    case dependencyNotFound(String)
-    case configNotFound
+    case checkFailed(with: Info)
+    case dependencyNotFound(dependency: String)
+    case configPathNotFound(path: String)
 }
 
 extension CheckError {
