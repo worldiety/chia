@@ -28,7 +28,6 @@ extension CheckProvider {
         do {
             try shellOut(to: "which", arguments: [binary])
         } catch {
-            logger.error("Could not find the dependency '\(binary)'.\n\(error.localizedDescription)")
             throw CheckError.dependencyNotFound(dependency: binary)
         }
     }
