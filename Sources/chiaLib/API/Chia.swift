@@ -11,6 +11,7 @@ import Foundation
 import FoundationNetworking
 #endif
 import Logging
+import ShellOut
 import Yams
 
 /// Main part of `Chia`.
@@ -122,6 +123,12 @@ public struct Chia {
         for provider in filteredProviders {
             do {
 
+                // validate if all dependencies (e.g. "swiftlint") exist
+                for dependency in provider.dependencies {
+                    try canFindDependency(binary: dependency)
+                }
+
+                // run the check
                 let checkResults = try provider.run(with: config, at: projectRootFolder)
                 results.append(contentsOf: checkResults)
 
@@ -146,6 +153,14 @@ public struct Chia {
         return try ChiaError.perform(expression()) { error in
             logger?.error(Logger.Message(extendedGraphemeClusterLiteral: msg), metadata: ["error": .string(error.localizedDescription)])
             return errorTransform(error)
+        }
+    }
+
+    private func canFindDependency(binary: String) throws {
+        do {
+            try shellOut(to: "which", arguments: [binary])
+        } catch {
+            throw CheckError.dependencyNotFound(dependency: binary)
         }
     }
 

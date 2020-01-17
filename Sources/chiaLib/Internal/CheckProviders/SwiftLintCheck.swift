@@ -14,12 +14,10 @@ import ShellOut
 
 struct SwiftLintCheck: CheckProvider {
     static let type: Language = .swift
-
+    static let dependencies: [String] = ["swiftlint"]
     private static let configFilename = ".swiftlint.yml"
-    static func run(with config: ChiaConfig, at projectRoot: Folder) throws -> [CheckResult] {
 
-        // validate if swiftlint exists
-        try canFindDependency(binary: "swiftlint")
+    static func run(with config: ChiaConfig, at projectRoot: Folder) throws -> [CheckResult] {
 
         // get config, if not already exists
         var customSwiftLintConfigUrl: URL?
