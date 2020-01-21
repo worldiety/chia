@@ -13,4 +13,5 @@ public enum ChiaError: Error {
     case yamlReadingError(Error)
     case yamlDecodingError(Error)
     case configNotFound
+    case someChecksFailed
 }
