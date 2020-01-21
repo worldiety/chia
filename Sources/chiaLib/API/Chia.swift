@@ -146,6 +146,11 @@ public struct Chia {
 
         // log the output of all checks
         log(results)
+
+        // throw an error if a check failed - this will result in an exit(1) in the 
+        if !results.isEmpty {
+            throw ChiaError.someChecksFailed
+        }
     }
 
     // MARK: - Helper Function
