@@ -66,11 +66,11 @@ public struct Chia {
         if let url = url {
             let encodedYAML = try perform(String(contentsOf: url),
                                           msg: "Config YAML could not be read.",
-                                          errorTransform: { .yamlReadingError($0) })
+                                          error: .yamlReadingError)
 
             config = try perform(YAMLDecoder().decode(ChiaConfig.self, from: encodedYAML),
                                  msg: "YAML is not valid could not be decoded.",
-                                 errorTransform: { .yamlDecodingError($0) })
+                                 error: .yamlDecodingError)
             logger?.info("Using config from: \(url.path)")
 
         } else {
@@ -88,7 +88,7 @@ public struct Chia {
         if let appendix = config?.projectRootAppendix {
             projectRootFolder = try perform(Folder.current.subfolder(at: appendix),
                                       msg: "Could not find subfolder '\(appendix)'.",
-                                      errorTransform: { .projectRootNotFound($0) })
+                                      error: .projectRootNotFound)
         } else {
             projectRootFolder = Folder.current
         }
@@ -148,17 +148,19 @@ public struct Chia {
         log(results)
 
         // throw an error if one check failed with an error - this will result in an exit(1) in the 
-        if !results.contains(where: { $0.severity == .error }) {
+        if results.contains(where: { $0.severity == .error }) {
             throw ChiaError.someChecksFailed
         }
     }
 
     // MARK: - Helper Function
 
-    private func perform<T>(_ expression: @autoclosure () throws -> T, msg: String, errorTransform: (Error) -> ChiaError) throws -> T {
-        return try ChiaError.perform(expression()) { error in
+    private func perform<T>(_ expression: @autoclosure () throws -> T, msg: String, error definedError: ChiaError) throws -> T {
+        do {
+            return try expression()
+        } catch {
             logger?.error(Logger.Message(extendedGraphemeClusterLiteral: msg), metadata: ["error": .string(error.localizedDescription)])
-            return errorTransform(error)
+            throw definedError
         }
     }
 
