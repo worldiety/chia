@@ -8,10 +8,10 @@
 import Foundation
 
 /// Errors that might be thrown by `Chia`.
-public enum ChiaError: Error {
-    case projectRootNotFound(Error)
-    case yamlReadingError(Error)
-    case yamlDecodingError(Error)
+public enum ChiaError: String, Error {
+    case projectRootNotFound
+    case yamlReadingError
+    case yamlDecodingError
     case configNotFound
     case someChecksFailed
 }
