@@ -147,8 +147,8 @@ public struct Chia {
         // log the output of all checks
         log(results)
 
-        // throw an error if a check failed - this will result in an exit(1) in the 
-        if !results.isEmpty {
+        // throw an error if one check failed with an error - this will result in an exit(1) in the 
+        if !results.contains(where: { $0.severity == .error }) {
             throw ChiaError.someChecksFailed
         }
     }
