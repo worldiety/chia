@@ -2,8 +2,8 @@ name: GitHub Release
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - '*'
 
 jobs:
   build:
@@ -11,13 +11,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
-      - name: Bump version and push tag
-        uses: anothrNick/github-tag-action@master
-        id: tag_bump
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WITH_V: false
-          DEFAULT_BUMP: patch
       - name: Release
         uses: softprops/action-gh-release@v1
         env:
