@@ -17,6 +17,17 @@ public enum Language: String, Equatable, Codable {
 //    case java
 //    case javaSpringBoot
 
+    func getExtensions() -> [String] {
+        switch self {
+        case .generic:
+            return []
+        case .swift:
+            return ["swift"]
+        case .go:
+            return ["go"]
+        }
+    }
+
     static func detect(at projectRoot: Folder) -> Language? {
         if projectRoot.containsFile(at: "Package.swift") || projectRoot.subfolders.contains(where: { $0.name.hasSuffix("xcodeproj") || $0.name.hasSuffix("xcworkspace") }) {
             return .swift

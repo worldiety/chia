@@ -38,10 +38,14 @@ public struct ChiaConfig: Codable {
     /// Config: `SwiftLintCheck`
     public let swiftLintConfig: SwiftLint?
 
-    public init(skippedProviders: [String]? = nil, projectRootAppendix: String? = nil, swiftLintConfig: SwiftLint? = nil) {
+    /// Config: `SpellCheck`
+    public let spellCheckConfig: SpellCheck?
+
+    public init(skippedProviders: [String]? = nil, projectRootAppendix: String? = nil, swiftLintConfig: SwiftLint? = nil, spellCheckConfig: SpellCheck? = nil) {
         self.skippedProviders = skippedProviders
         self.projectRootAppendix = projectRootAppendix
         self.swiftLintConfig = swiftLintConfig
+        self.spellCheckConfig = spellCheckConfig
     }
 }
 
@@ -55,6 +59,17 @@ public extension ChiaConfig {
 
         public init(lintingRulesPath: String? = nil) {
             self.lintingRulesPath = lintingRulesPath
+        }
+    }
+
+    // MARK: - SpellCheck
+    struct SpellCheck: Codable {
+        let ignoredFiles: [String]
+        let ignoredWords: [String]
+
+        public init(ignoredFiles: [String] = [String](), ignoredWords: [String] = [String]()) {
+            self.ignoredFiles = ignoredFiles
+            self.ignoredWords = ignoredWords
         }
     }
 
