@@ -37,7 +37,7 @@ do {
         try chia.setConfig(from: url)
     } else {
 
-        // no url is provied - use the default one
+        // no url is provided - use the default one
         try chia.setConfig(from: nil)
     }
 

@@ -23,7 +23,8 @@ public struct Chia {
     static let providers: [CheckProvider.Type] = [
         LicenseCheck.self,
         ReadmeCheck.self,
-        SwiftLintCheck.self
+        SwiftLintCheck.self,
+        SpellCheck.self
     ]
 
     /// `Logger` instance that gets injected.
@@ -47,7 +48,7 @@ public struct Chia {
     /// Parse the `.chia.yml` configuration file.
     ///
     /// If no url is provided, this functions sets the default config.
-    /// This sets also the project root acording to the config.
+    /// This sets also the project root according to the config.
     /// ```
     /// skippedProviders:
     ///     - ReadmeCheck

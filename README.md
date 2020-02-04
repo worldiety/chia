@@ -45,7 +45,7 @@ chia:
 ...
 ```
 
-... or use our [:octocat: Github Action](https://github.com/marketplace/actions/github-action-for-chia).
+... or use our [:octocat: GitHub Action](https://github.com/marketplace/actions/github-action-for-chia).
 
 
 ## ⌨️🖱Installation
@@ -72,6 +72,6 @@ Feel free to contribute to this project.
 Submit pull requests or contribute tutorials - whatever you have to offer, it would be appreciated!
 
 If a check is missing, the [`CheckProvider`](https://github.com/worldiety/chia/blob/master/Sources/chiaLib/Internal/CheckProvider.swift) is the right places to start.
-Just add another implemention and have a look at all the [other checks](https://github.com/worldiety/chia/tree/master/Sources/chiaLib/Internal/CheckProviders).
+Just add another implementation and have a look at all the [other checks](https://github.com/worldiety/chia/tree/master/Sources/chiaLib/Internal/CheckProviders).
 
 If your favorite programming language is missing, have a look at the [`Language`](https://github.com/worldiety/chia/blob/master/Sources/chiaLib/API/Language.swift).

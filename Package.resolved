@@ -11,6 +11,15 @@
         }
       },
       {
+        "package": "Progress",
+        "repositoryURL": "https://github.com/jkandzi/Progress.swift",
+        "state": {
+          "branch": null,
+          "revision": "fed6598735d7982058690acf8f52a0a5fdaeb3e0",
+          "version": "0.4.0"
+        }
+      },
+      {
         "package": "ShellOut",
         "repositoryURL": "https://github.com/johnsundell/shellout.git",
         "state": {
@@ -26,6 +35,15 @@
           "branch": null,
           "revision": "74d7b91ceebc85daf387ebb206003f78813f71aa",
           "version": "1.2.0"
+        }
+      },
+      {
+        "package": "SwiftSyntax",
+        "repositoryURL": "https://github.com/apple/swift-syntax.git",
+        "state": {
+          "branch": null,
+          "revision": "3e3eb191fcdbecc6031522660c4ed6ce25282c25",
+          "version": "0.50100.0"
         }
       },
       {
