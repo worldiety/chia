@@ -7,11 +7,8 @@
 
 import Files
 import SwiftSyntax
-#if canImport(Cocoa)
-import Cocoa
-#endif
+import Progress
 
-@available(macOS 10.12, *)
 struct SpellCheck: CheckProvider {
 
     static let languages: [Language] = [.generic]
@@ -19,22 +16,26 @@ struct SpellCheck: CheckProvider {
 
     static func run(with config: ChiaConfig, at projectRoot: Folder) throws -> [CheckResult] {
 
-        let supportedExtensions = Set(languages.flatMap { $0.getExtensions() })
-        let ignoredFiles = Set(config.spellCheckConfig?.ignoredFiles ?? [])
+        let supportedExtensions = Set(["swift", "md"])
+        let ignoredPaths = config.spellCheckConfig?.ignoredPaths ?? []
         let ignoredWords = config.spellCheckConfig?.ignoredWords ?? []
 
-        // TODO: use SpellChecker protocol
-        let spellChecker = NSSpellChecker.shared
-        spellChecker.setIgnoredWords(ignoredWords, inSpellDocumentWithTag: 0)
-        spellChecker.setLanguage("en_US")
+        let spellChecker = createSpellChecker(with: ignoredWords)
 
-        return projectRoot.files.recursive.includingHidden
+        let files = projectRoot.files.recursive
             .filter { supportedExtensions.contains($0.extension?.lowercased() ?? "") }
-            .filter { !ignoredFiles.contains($0.name) }
-            .flatMap { analyse(file: $0, with: spellChecker) }
+            .filter { file in
+                !ignoredPaths.contains(where: { file.path.contains($0) })
+            }
+
+        var bar = ProgressBar(count: files.count, configuration: [ProgressString(string: "SpellChcker:"), ProgressBarLine(barLength: 50), ProgressPercent()])
+        return files.flatMap { file -> [CheckResult] in
+            bar.next()
+            return analyse(file: file, with: spellChecker)
+        }
     }
 
-    static func analyse(file: File, with spellChecker: NSSpellChecker) -> [CheckResult] {
+    private static func analyse(file: File, with spellChecker: SpellChecker) -> [CheckResult] {
         let fileExtension = file.extension?.lowercased()
         switch fileExtension ?? "" {
         case "swift":
@@ -48,13 +49,13 @@ struct SpellCheck: CheckProvider {
 
             return syntaxTree.tokens.flatMap { $0.leadingTrivia.compactMap({ $0.comment }) }
                 .compactMap { spellChecker.findMisspelled(in: $0) }
-                .map { .warning(msg: "Misspelled Word: \($0)") }
+                .map { .warning(msg: "Misspelled: '\($0)' in '\(file.path)'") }
 
         case "md":
             guard let fileContent = try? String(contentsOf: file.url) else { return [] }
             return fileContent.split(separator: "\n")
                 .compactMap { spellChecker.findMisspelled(in: String($0)) }
-                .map { .warning(msg: "Misspelled Word: \($0)") }
+                .map { .warning(msg: "Misspelled: '\($0)' in '\(file.path)'") }
 
         default:
             if let fileExtension = fileExtension,
@@ -67,18 +68,8 @@ struct SpellCheck: CheckProvider {
     }
 }
 
-fileprivate extension NSSpellChecker {
-    func findMisspelled(in text: String) -> String? {
-        let misspelledRange = self.checkSpelling(of: text, startingAt: 0)
-        if misspelledRange.location < text.count {
-            return (text as NSString).substring(with: misspelledRange)
-        }
-        return nil
-    }
-}
-
-extension TriviaPiece {
-    public var comment: String? {
+fileprivate extension TriviaPiece {
+    var comment: String? {
         switch self {
         case .spaces,
              .tabs,
@@ -95,15 +86,6 @@ extension TriviaPiece {
              .docLineComment(let comment),
              .docBlockComment(let comment):
             return comment
-        }
-    }
-
-    public var isNewline: Bool {
-        switch self {
-        case .newlines:
-            return true
-        default:
-            return false
         }
     }
 }

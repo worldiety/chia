@@ -20,14 +20,14 @@ public struct ChiaConfig: Codable {
 
     /// Use this appendix, if your project has a diffrent root folder.
     ///
-    /// In the following example the `projectRootAppendix` would be `MyCoolPrject`.
+    /// In the following example the `projectRootAppendix` would be `MyCoolProject`.
     /// ```
     /// .
     /// ├── .git
     /// ├── i18n
     /// │   ├── de
     /// │   └── en
-    /// └── MyCoolPrject
+    /// └── MyCoolProject
     ///     ├── Sources
     ///     ├── Tests
     ///     ├── Package.swift
@@ -64,11 +64,11 @@ public extension ChiaConfig {
 
     // MARK: - SpellCheck
     struct SpellCheck: Codable {
-        let ignoredFiles: [String]
-        let ignoredWords: [String]
+        let ignoredPaths: [String]?
+        let ignoredWords: [String]?
 
-        public init(ignoredFiles: [String] = [String](), ignoredWords: [String] = [String]()) {
-            self.ignoredFiles = ignoredFiles
+        public init(ignoredPaths: [String]? = nil, ignoredWords: [String]? = nil) {
+            self.ignoredPaths = ignoredPaths
             self.ignoredWords = ignoredWords
         }
     }
