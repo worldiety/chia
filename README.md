@@ -3,6 +3,13 @@
 `chia` is a command line tool that lets you run some checks.
 It can be easily integrated into your CI process.
 
+## ✅ Checks
+
+The following checks will be run by chia:
+- Readme/License Check: Test if the `README.md` and `LICENSE` files could be found in the project directory
+- SpellCheck (macOS only): spellcheck you project files - no more `fixed typo` commits 🤓
+- [SwiftLint](https://github.com/realm/SwiftLint): Runs `swiftlint` for your `swift` projects
+
 ## 🕹 Usage
 
 You can run `chia` in your terminal, but keep in mind to also install all **required dependencies**.
