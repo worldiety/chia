@@ -12,17 +12,22 @@ import Files
 
 // bootstrap logging
 LoggingSystem.bootstrap(TerminalLog.init)
-let logger = Logger(label: "chia-cli")
+var logger = Logger(label: "chia-cli")
 
 // parse command line argument
 let parser = ArgumentParser(commandName: "chia",
-                            usage: "[--config path] [--language-detection]",
+                            usage: "[--config path] [--language-detection] [--verbose]",
                             overview: "Run several check like linting etc. in your CI process.")
 let configPath: OptionArgument<String> = parser.add(option: "--config", shortName: "-c", kind: String.self, usage: "Path to the Config file (local or remote), e.g. 'https://PATH/TO/.chia.yml'", completion: .filename)
 let onlyLanguageDetection: OptionArgument<Bool> = parser.add(option: "--language-detection", kind: Bool.self, usage: "Returns a project language for a given root folder. All checks will be skipped.")
+let verboseModeActive: OptionArgument<Bool> = parser.add(option: "--verbose", shortName: "-v", kind: Bool.self, usage: "Increse logging.")
 
 do {
     let result = try parser.parse(Array(CommandLine.arguments.dropFirst()))
+
+    // set logging level
+    let increasedLogging = result.get(verboseModeActive) ?? false
+    logger.logLevel = increasedLogging ? .debug : .warning
 
     // setup chia
     var chia = Chia(logger: logger)
