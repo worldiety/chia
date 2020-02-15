@@ -5,10 +5,10 @@ import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
 #endif
+import Files
 import Logging
 import TerminalLog
 import TSCUtility
-import Files
 
 // bootstrap logging
 LoggingSystem.bootstrap(TerminalLog.init)

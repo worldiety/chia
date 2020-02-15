@@ -6,9 +6,9 @@
 //
 
 import Files
+import Progress
 import ShellOut
 import SwiftSyntax
-import Progress
 
 struct SpellCheck: CheckProvider {
 
@@ -30,14 +30,17 @@ struct SpellCheck: CheckProvider {
             latestFiles = terminalOut?.split(separator: "\n").map { String($0) }
         }
 
+        // swiftlint:disable trailing_closure
         let files = projectRoot.files.recursive
             .filter { supportedExtensions.contains($0.extension?.lowercased() ?? "") }
             .filter { file in
                 guard let latestFiles = latestFiles else { return true }
-                return latestFiles.contains(where: { file.path.contains($0) }) }
+                return latestFiles.contains(where: { file.path.contains($0) })
+            }
             .filter { file in
                 !ignoredPaths.contains(where: { file.path.contains($0) })
             }
+        // swiftlint:enable trailing_closure
 
         var bar = ProgressBar(count: files.count, configuration: [ProgressString(string: "SpellChcker:"), ProgressBarLine(barLength: 50), ProgressPercent()])
         return files.flatMap { file -> [CheckResult] in

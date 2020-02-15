@@ -17,7 +17,7 @@ import Yams
 /// Main part of `Chia`.
 public struct Chia {
 
-    /// Array of all available `CheckProvider`s.
+    /// Array of all available `CheckProvider` structs.
     ///
     /// Please add your new provider to this list. :)
     static let providers: [CheckProvider.Type] = [
@@ -60,7 +60,7 @@ public struct Chia {
     ///
     /// ```
     ///
-    /// This function might throw an`Error`.
+    /// This function might throw an `Error`.
     ///
     /// - Parameter path: Path of the `.chia.yml` configuration file.
     public mutating func setConfig(from url: URL?) throws {

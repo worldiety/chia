@@ -33,8 +33,8 @@ public struct TerminalLog: LogHandler {
         }
 
         var formedMessage = message.description
-        if combinedPrettyMetadata != nil {
-            formedMessage += " -- " + combinedPrettyMetadata!
+        if let combinedPrettyMetadata = combinedPrettyMetadata {
+            formedMessage += " -- " + combinedPrettyMetadata
         }
 
         print("\(formedMessage, color: getColor(for: level))")
