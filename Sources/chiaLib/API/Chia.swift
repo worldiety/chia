@@ -73,6 +73,7 @@ public struct Chia {
                                  msg: "YAML is not valid could not be decoded.",
                                  error: .yamlDecodingError)
             logger?.info("Using config from: \(url.path)")
+            logger?.debug("\(encodedYAML)")
 
         } else {
             if let localConfigString = try? String(contentsOf: Folder.current.url.appendingPathComponent(localConfigFilename)),
