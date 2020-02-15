@@ -66,10 +66,12 @@ public extension ChiaConfig {
     struct SpellCheck: Codable {
         let ignoredPaths: [String]?
         let ignoredWords: [String]?
+        let onlyLatestFiles: Bool?
 
-        public init(ignoredPaths: [String]? = nil, ignoredWords: [String]? = nil) {
+        public init(ignoredPaths: [String]? = nil, ignoredWords: [String]? = nil, onlyLatestFiles: Bool = true) {
             self.ignoredPaths = ignoredPaths
             self.ignoredWords = ignoredWords
+            self.onlyLatestFiles = onlyLatestFiles
         }
     }
 

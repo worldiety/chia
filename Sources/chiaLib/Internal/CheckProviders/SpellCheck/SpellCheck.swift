@@ -6,6 +6,7 @@
 //
 
 import Files
+import ShellOut
 import SwiftSyntax
 import Progress
 
@@ -22,8 +23,18 @@ struct SpellCheck: CheckProvider {
 
         let spellChecker = createSpellChecker(with: ignoredWords)
 
+        // get files from (including) the last commit until now
+        var latestFiles: [String]?  // nil if all files should be used
+        if config.spellCheckConfig?.onlyLatestFiles ?? true {
+            let terminalOut = try? shellOut(to: "git", arguments: ["diff", "--name-only HEAD~1"])
+            latestFiles = terminalOut?.split(separator: "\n").map { String($0) }
+        }
+
         let files = projectRoot.files.recursive
             .filter { supportedExtensions.contains($0.extension?.lowercased() ?? "") }
+            .filter { file in
+                guard let latestFiles = latestFiles else { return true }
+                return latestFiles.contains(where: { file.path.contains($0) }) }
             .filter { file in
                 !ignoredPaths.contains(where: { file.path.contains($0) })
             }
