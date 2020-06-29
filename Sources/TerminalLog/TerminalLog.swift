@@ -16,10 +16,12 @@ public struct TerminalLog: LogHandler {
         }
     }
     public var logLevel: Logger.Level = .info
-
+    private let xcodeOutput: Bool
     private var prettyMetadata: String?
 
-    public init(_: String) { }
+    public init(xcodeOutput: Bool = false) {
+        self.xcodeOutput = xcodeOutput
+    }
 
     public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, file: String, function: String, line: UInt) {
 
@@ -37,7 +39,18 @@ public struct TerminalLog: LogHandler {
             formedMessage += " -- " + combinedPrettyMetadata!
         }
 
-        print("\(formedMessage, color: getColor(for: level))")
+        if xcodeOutput,
+            let filename = metadata?["file"]?.description,
+            let linenumber = metadata?["line"]?.description {
+            
+            var typeId = ""
+            if let type = metadata?["rule_id"]?.description {
+                typeId = " (\(type))"
+            }
+            print("\(filename):\(linenumber):1: \(level.rawValue): \(message.description)\(typeId)")
+        } else {
+            print("\(formedMessage, color: getColor(for: level))")
+        }
     }
 
     /// Add, remove, or change the logging metadata.
