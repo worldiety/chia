@@ -1,7 +1,7 @@
 # ================================
 # Build image
 # ================================
-FROM swift:5.1-bionic as builder
+FROM swift:5.2-bionic as builder
 LABEL maintainer="julian.kahnert@worldiety.de"
 
 WORKDIR /build-folder
@@ -26,7 +26,7 @@ RUN git clone https://github.com/realm/SwiftLint SwiftLint && \
 # ================================
 # Run image
 # ================================
-FROM swift:5.1-bionic-slim
+FROM swift:5.2-bionic-slim
 LABEL maintainer="julian.kahnert@worldiety.de"
 
 WORKDIR /project
