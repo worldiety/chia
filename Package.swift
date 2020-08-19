@@ -14,7 +14,7 @@ let package = Package(
         .executable(name: "chia", targets: ["chia"])
     ],
     dependencies: [
-        .package(url: "https://github.com/johnsundell/shellout.git", from: "2.0.0"),
+        .package(url: "https://github.com/johnsundell/shellout.git", from: "2.3.0"),
         .package(url: "https://github.com/JohnSundell/Files", from: "4.1.1"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "2.0.0"),
         .package(url: "https://github.com/apple/swift-tools-support-core.git", from: "0.0.0"),
