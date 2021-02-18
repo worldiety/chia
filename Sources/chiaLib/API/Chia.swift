@@ -56,7 +56,7 @@ public struct Chia {
     /// projectRootAppendix: null
     ///
     /// swiftLintConfig:
-    ///     lintingRulesPath: https://raw.githubusercontent.com/USERNAME/REPONAME/master/.swiftlint.yml
+    ///     lintingRulesPath: https://raw.githubusercontent.com/USERNAME/REPONAME/main/.swiftlint.yml
     ///
     /// ```
     ///
