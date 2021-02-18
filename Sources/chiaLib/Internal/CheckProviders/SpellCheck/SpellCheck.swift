@@ -28,7 +28,7 @@ struct SpellCheck: CheckProvider {
                 !ignoredPaths.contains(where: { file.path.contains($0) })
             }
 
-        var bar = ProgressBar(count: files.count, configuration: [ProgressString(string: "SpellChcker:"), ProgressBarLine(barLength: 50), ProgressPercent()])
+        var bar = ProgressBar(count: files.count, configuration: [ProgressString(string: "SpellChecker:"), ProgressBarLine(barLength: 50), ProgressPercent()])
         return files.flatMap { file -> [CheckResult] in
             bar.next()
             return analyse(file: file, with: spellChecker)
@@ -53,7 +53,13 @@ struct SpellCheck: CheckProvider {
 
         case "md":
             guard let fileContent = try? String(contentsOf: file.url) else { return [] }
-            return fileContent.split(separator: "\n")
+            let contentWithoutCode = fileContent.components(separatedBy: "```")
+                .enumerated()
+                .reduce(into: "") { (resultString, tuple) in
+                    guard (tuple.offset % 2) == 0 else { return }
+                    resultString += tuple.element
+                }
+            return contentWithoutCode.split(separator: "\n")
                 .compactMap { spellChecker.findMisspelled(in: String($0)) }
                 .map { .warning(msg: "Misspelled: '\($0)' in '\(file.path)'") }
 
