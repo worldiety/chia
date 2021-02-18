@@ -1,12 +1,16 @@
 # ================================
 # Build image
 # ================================
-FROM swift:5.3-bionic as builder
+FROM swift:5.3-xenial as builder
 LABEL maintainer="julian.kahnert@worldiety.de"
 
 WORKDIR /build-folder
 RUN mkdir /builder-bins
 RUN mkdir /builder-libs
+
+RUN export DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true && \
+    apt-get -q update && apt-get -q dist-upgrade -y && \
+    apt-get install -y libsqlite3-dev
 
 # Install chia
 COPY . .
@@ -26,7 +30,7 @@ RUN git clone https://github.com/realm/SwiftLint SwiftLint && \
 # ================================
 # Run image
 # ================================
-FROM swift:5.3-bionic-slim
+FROM swift:5.3-xenial-slim
 LABEL maintainer="julian.kahnert@worldiety.de"
 
 WORKDIR /project
