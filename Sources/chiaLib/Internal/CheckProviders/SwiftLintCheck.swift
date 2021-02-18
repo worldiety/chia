@@ -67,8 +67,8 @@ struct SwiftLintCheck: CheckProvider {
 
         return violatons.map { violation in
             CheckResult(severity: violation.severity,
-                        message: "\(violation.type) - \(violation.reason)",
-                        metadata: ["file": .string(violation.file), "line": .stringConvertible(violation.line)])
+                        message: violation.reason,
+                        metadata: ["file": .string(violation.file), "line": .stringConvertible(violation.line), "rule_id": .string(violation.ruleID)])
         }
     }
 }
