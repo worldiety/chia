@@ -18,7 +18,7 @@ let package = Package(
         .package(url: "https://github.com/JohnSundell/Files", from: "4.2.0"),
         .package(url: "https://github.com/jpsim/Yams.git", from: "4.0.4"),
         .package(url: "https://github.com/apple/swift-tools-support-core.git", from: "0.2.0"),
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.1"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.4.2"),
         .package(url: "https://github.com/apple/swift-syntax.git", .exact("0.50100.0")),
         .package(url: "https://github.com/jkandzi/Progress.swift", from: "0.4.0")
     ],
