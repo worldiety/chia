@@ -16,7 +16,7 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/johnsundell/shellout.git", from: "2.3.0"),
         .package(url: "https://github.com/JohnSundell/Files", from: "4.2.0"),
-        .package(url: "https://github.com/jpsim/Yams.git", from: "4.0.5"),
+        .package(url: "https://github.com/jpsim/Yams.git", from: "4.0.6"),
         .package(url: "https://github.com/apple/swift-tools-support-core.git", from: "0.2.2"),
         .package(url: "https://github.com/apple/swift-log.git", from: "1.4.2"),
         .package(url: "https://github.com/apple/swift-syntax.git", .exact("0.50100.0")),
