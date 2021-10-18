@@ -1,7 +1,7 @@
 # ================================
 # Build image
 # ================================
-FROM swift:5.4-xenial as builder
+FROM swift:5.5-xenial as builder
 LABEL maintainer="julian.kahnert@worldiety.de"
 
 WORKDIR /build-folder
@@ -30,7 +30,7 @@ RUN git clone https://github.com/realm/SwiftLint SwiftLint && \
 # ================================
 # Run image
 # ================================
-FROM swift:5.4-xenial-slim
+FROM swift:5.5-xenial-slim
 LABEL maintainer="julian.kahnert@worldiety.de"
 
 WORKDIR /project
